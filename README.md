@@ -2,6 +2,11 @@
 
 A tiny REST-like mapper for Iridium models with seneca micro-services toolkit and express.js
 
+
+## TODO
+* Add support for express.js
+* More test cases
+
 ## Install
 
 ```javascript
