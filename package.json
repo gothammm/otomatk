@@ -1,0 +1,33 @@
+{
+  "name": "otomatk",
+  "version": "0.1.0",
+  "description": "Iridium Model REST Mapper for Express and Seneca",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peek4y/otomatk.git"
+  },
+  "bugs": "https://github.com/peek4y/otomatk/issues",
+  "author": {
+    "name": "Gautham Ramachandran",
+    "email": "gautham2r@gmail.com",
+    "url": "http://gautham.me"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ramda": "^0.18.0"
+  },
+  "engines": {
+    "node": ">=4.0",
+    "npm": "~3.5.2"
+  },
+  "devDependencies": {
+    "bluebird": "^3.1.1",
+    "chai": "^3.4.1",
+    "iridium": "^6.5.1",
+    "seneca": "^0.9.2"
+  }
+}
