@@ -1,6 +1,6 @@
 # Otomatk
 
-A tiny REST-like mapper for Iridium models with seneca micro-services toolkit and express.js
+A tiny REST-like mapper for [Iridium](http://sierrasoftworks.github.io/Iridium/) models with [Seneca](http://senecajs.org/) micro-services toolkit and express.js
 
 
 ## TODO
