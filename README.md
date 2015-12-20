@@ -2,7 +2,8 @@
 
 A tiny REST-like mapper for [Iridium](http://sierrasoftworks.github.io/Iridium/) models with [Seneca](http://senecajs.org/) micro-services toolkit and express.js
 
-
+### Status
+[![Build Status](https://travis-ci.org/peek4y/otomatk.svg?branch=master)](https://travis-ci.org/peek4y/otomatk)
 ## TODO
 * Add support for express.js
 * More test cases
