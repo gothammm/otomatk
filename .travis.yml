@@ -6,4 +6,4 @@ before_install:
 services:
   - mongodb
 before_script:
-  - mongo test --eval 'db.addUser("test","test)'
+  - mongo test --eval 'db.addUser("test","test")'
