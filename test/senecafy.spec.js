@@ -6,6 +6,7 @@
 /* global before */
 const Iridium = require('iridium');
 const Chai = require('chai');
+const R = require('ramda');
 const expect = Chai.expect;
 const Core = Iridium.Core;
 const User = require('./models/user');
@@ -209,6 +210,38 @@ describe('Senecafy', () => {
         expect(err.reason.message).to.have.length.of.at.least(1);
         done();
       });
+  });
+
+  it('should select age and email fields in find query', (done) => {
+    seneca
+      .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'list' }, {
+        fields: {
+          email: 1,
+          age: 1
+        }
+      })
+      .then((data) => {
+        expect(data).to.be.instanceOf(Array);
+        expect(data).to.have.length.of.at.least(1);
+        data.forEach((i) => {
+          expect(R.pickBy((v, k) => k === 'username', i)).to.deep.equal({});
+        });
+        done();
+      })
+  });
+  
+  it('should fetch only 10 records', (done) => {
+    seneca
+    .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'list' }, {
+      options: {
+        limit: 10
+      }
+    })
+    .then((data) => {
+      expect(data).to.be.instanceOf(Array);
+      expect(data).to.have.length(10);
+      done();
+    });
   });
 
 });
