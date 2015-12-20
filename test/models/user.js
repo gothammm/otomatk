@@ -41,7 +41,7 @@ User.transforms = {
 
 User.schema = {
   _id: false,
-  username: String,
+  username: { $type: String, $required: true },
   email: String,
   age: Number
 };

@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "4"
+before_install:
+  - npm install -g mocha
+services:
+  - mongodb
+before_script:
+  - mongo test --eval 'db.addUser("test","test)'
