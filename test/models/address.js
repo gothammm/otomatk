@@ -24,8 +24,6 @@ Address.transforms = {
         var upsert = {};
         if (document.lastErrorObject.updatedExisting) {
           upsert.isUpdated = true;
-        } else {
-          upsert.isNew = true;
         }
         upsert.lastFetched = new Date();
         return R.merge(document.value, upsert);
@@ -41,9 +39,9 @@ Address.transforms = {
 
 Address.schema = {
   _id: false,
-  zipcode: Number,
-  city: String,
-  state: String
+  zipcode: { $type: Number, $required: true },
+  city: { $type: String, $required: true },
+  state: { $type: String, $required: false }
 };
 
 Address.collection = 'address';

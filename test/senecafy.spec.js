@@ -37,7 +37,11 @@ before((done) => {
     users.push({
       username: 'test ' + i,
       email: 'test' + i + '@test.com',
-      age: i
+      age: i,
+      addresses: [{
+        city: 'Boston ' + i,
+        zipcode: 5000 + i
+      }]
     });
   }
   UserModel.collection.insertMany(users, (err, r) => {
@@ -94,7 +98,15 @@ describe('Senecafy', () => {
   it('should save a new user', (done) => {
     seneca
       .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, {
-        data: { username: 'test_user500', email: 'test_user500@test.com', age: 500 }
+        data: {
+          username: 'test_user500',
+          email: 'test_user500@test.com',
+          age: 500,
+          addresses: [{
+            zipcode: 15125,
+            city: 'TestCity'
+          }]
+        }
       })
       .then((data) => {
         expect(data).not.to.be.null;
@@ -112,14 +124,31 @@ describe('Senecafy', () => {
     var updateId;
     var preUpdateAge;
     var postUpdateAge = 400;
+    var postUpdateAddresses = [{
+      zipcode: 1254122,
+      city: 'new city'
+    }]
     seneca
       .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, {
-        data: { username: 'test_user200', email: 'test_user200@test.com', age: 200 }
+        data: {
+          username: 'test_user200',
+          email: 'test_user200@test.com',
+          age: 200,
+          addresses: [{
+            zipcode: 15125,
+            city: 'TestCity'
+          }]
+        }
       })
       .then((data) => {
         updateId = data._id.toString();
         preUpdateAge = data.age;
-        data.age = postUpdateAge;
+        if (data.addresses.length) {
+          data.addresses.push(postUpdateAddresses[0]);
+        } else {
+          data.addresses = postUpdateAddresses;
+        }
+        data.age = postUpdateAge
         return seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, { data: data });
       })
       .then((data) => {

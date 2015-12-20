@@ -1,6 +1,7 @@
 const Iridium = require('iridium');
 const ObjectID = require('mongodb').ObjectID;
 const R = require('ramda');
+const Address = require('./address');
 
 
 function User() {
@@ -14,6 +15,7 @@ User.onCreating = (user) => {
   if (R.is(String, user._id)) {
     user._id = new ObjectID(user._id);
   }
+  user.addresses = user.addresses && user.addresses.length ? user.addresses : [];
   user = R.pickBy((v, k) => k != 'id', user);
 };
 
@@ -24,8 +26,6 @@ User.transforms = {
         var upsert = {};
         if (document.lastErrorObject.updatedExisting) {
           upsert.isUpdated = true;
-        } else {
-          upsert.isNew = true;
         }
         upsert.lastFetched = new Date();
         return R.merge(document.value, upsert);
@@ -34,6 +34,9 @@ User.transforms = {
       return document;
     },
     toDB: (document, property, model) => {
+      if (document.addresses && document.addresses.length) {
+        model.helper
+      }
       return R.pickBy((val, key) => R.keys(User.schema).indexOf(key) >= 0, document);
     }
   }
@@ -43,7 +46,8 @@ User.schema = {
   _id: false,
   username: { $type: String, $required: true },
   email: String,
-  age: Number
+  age: Number,
+  addresses: { $type: [Address.schema], $required: false }
 };
 
 User.collection = 'users';
