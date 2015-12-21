@@ -17,6 +17,25 @@ Address.onCreating = (address) => {
   address = R.pickBy((v, k) => k != 'id', address);
 };
 
+Address.transforms = {
+  $document: {
+    fromDB: document => {
+      if (document.value && document.lastErrorObject) {
+        var upsert = {};
+        if (document.lastErrorObject.updatedExisting) {
+          upsert.isUpdated = true;
+        }
+        upsert.lastFetched = new Date();
+        return R.merge(document.value, upsert);
+      }
+      document.lastFetched = new Date();
+      return document;
+    },
+    toDB: (document, property, model) => {
+      return R.pickBy((val, key) => R.keys(Address.schema).indexOf(key) >= 0, document);
+    }
+  }
+};
 
 Address.schema = {
   _id: false,

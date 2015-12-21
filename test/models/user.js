@@ -19,6 +19,28 @@ User.onCreating = (user) => {
   user = R.pickBy((v, k) => k != 'id', user);
 };
 
+User.transforms = {
+  $document: {
+    fromDB: document => {
+      if (document.value && document.lastErrorObject) {
+        var upsert = {};
+        if (document.lastErrorObject.updatedExisting) {
+          upsert.isUpdated = true;
+        }
+        upsert.lastFetched = new Date();
+        return R.merge(document.value, upsert);
+      }
+      document.lastFetched = new Date();
+      return document;
+    },
+    toDB: (document, property, model) => {
+      if (document.addresses && document.addresses.length) {
+        model.helper
+      }
+      return R.pickBy((val, key) => R.keys(User.schema).indexOf(key) >= 0, document);
+    }
+  }
+};
 
 User.schema = {
   _id: false,
