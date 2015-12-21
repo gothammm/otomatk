@@ -107,6 +107,9 @@ describe('Senecafy', () => {
             zipcode: 15125,
             city: 'TestCity'
           }]
+        },
+        options: {
+          w: 1
         }
       })
       .then((data) => {
@@ -139,6 +142,9 @@ describe('Senecafy', () => {
             zipcode: 15125,
             city: 'TestCity'
           }]
+        },
+        options: {
+          w: 1
         }
       })
       .then((data) => {
@@ -170,6 +176,9 @@ describe('Senecafy', () => {
           zipcode: 111,
           city: 'Boston',
           state: 'Commonwealth'
+        },
+        options: {
+          w: 1
         }
       })
       .then((data) => {
