@@ -253,5 +253,5 @@ after((done) => {
     }
     db.close();
     done();
-  })
+  });
 });
