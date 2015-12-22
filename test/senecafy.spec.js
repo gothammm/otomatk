@@ -11,11 +11,12 @@ const expect = Chai.expect;
 const Core = Iridium.Core;
 const User = require('./models/user');
 const Address = require('./models/address');
+const Contact = require('./models/contact');
 const seneca = require('seneca')();
 const Bluebird = require('bluebird');
 const Otomatk = require('../index');
 const Senecafy = Otomatk.Senecafy;
-var db, UserModel, AddressModel;
+var db, UserModel, AddressModel, ContactModel;
 var senecaRole = 'user';
 var senecafy = new Senecafy(seneca, senecaRole);
 
@@ -26,7 +27,8 @@ before((done) => {
   return db.connect().then(() => {
     UserModel = new Iridium.Model(db, User);
     AddressModel = new Iridium.Model(db, Address);
-    senecafy.load([UserModel, AddressModel]);
+    ContactModel = new Iridium.Model(db, Contact);
+    senecafy.load([UserModel, AddressModel, ContactModel]);
     done();
   });
 });
@@ -304,6 +306,25 @@ describe('Senecafy', () => {
       expect(status).not.to.be.null;
       expect(status).not.to.be.undefined;
       expect(status.removed).not.to.be.undefined;
+      done();
+    });
+  });
+  
+  it('should save a new contact and update it', (done) => {
+    ContactModel
+    .insert({ email: 'test', first_name: 'test', last_name: 'test2' })
+    .then((contact) => {
+      var contactJSON = contact.toJSON();
+      contactJSON.first_name = 'new test';
+      return seneca.actAsync({ role: senecaRole, plugin: ContactModel.collectionName, cmd: 'save' }, {
+        data: contactJSON
+      });
+    })
+    .then((c) => {
+      expect(c).not.to.be.null;
+      expect(c).not.to.be.undefined;
+      expect(c.first_name).to.equal('new test');
+      expect(c.email).to.equal('test@test.com');
       done();
     });
   });
