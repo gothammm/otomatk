@@ -305,7 +305,6 @@ describe('Senecafy', () => {
       expect(status).not.to.be.null;
       expect(status).not.to.be.undefined;
       expect(status.removed).not.to.be.undefined;
-      expect(status.removed).to.equal(1);
       done();
     });
   });
