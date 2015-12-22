@@ -83,6 +83,21 @@ describe('Senecafy', () => {
       });
   });
 
+  it('should get user by ID', (done) => {
+    var id;
+    UserModel.get().then((u) => u.toJSON()).then((data) => {
+      id = data._id.toString();
+      console.log(id);
+      return seneca
+        .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'load' }, { id: id });
+    }).then((user) => {
+      expect(user._id.toString()).to.equal(id);
+      expect(user).not.to.be.null;
+      expect(user).not.to.be.undefined;
+      done();
+    });
+  });
+
   it('should get the user details whose age is 50', (done) => {
     seneca
       .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'load' }, { data: { age: 50 } })
@@ -156,7 +171,7 @@ describe('Senecafy', () => {
           data.addresses = postUpdateAddresses;
         }
         data.age = postUpdateAge
-        return seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, { data: data });
+        return seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, { id: updateId, data: data });
       })
       .then((data) => {
         expect(data).not.to.be.null;
@@ -238,21 +253,21 @@ describe('Senecafy', () => {
         done();
       })
   });
-  
+
   it('should fetch only 10 records', (done) => {
     seneca
-    .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'list' }, {
-      options: {
-        limit: 10
-      }
-    })
-    .then((data) => {
-      expect(data).to.be.instanceOf(Array);
-      expect(data).to.have.length(10);
-      done();
-    });
+      .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'list' }, {
+        options: {
+          limit: 10
+        }
+      })
+      .then((data) => {
+        expect(data).to.be.instanceOf(Array);
+        expect(data).to.have.length(10);
+        done();
+      });
   });
-  
+
   it('should accept string _id during update', (done) => {
     seneca
       .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, {
@@ -279,6 +294,19 @@ describe('Senecafy', () => {
         done();
       })
       .catch(done);
+  });
+
+  it('should remove User of a given ID', (done) => {
+    UserModel.get().then((u) => u.toJSON()).then((data) => {
+      var id = data._id.toString();
+      return seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'remove' }, { id: id });
+    }).then((status) => {
+      expect(status).not.to.be.null;
+      expect(status).not.to.be.undefined;
+      expect(status.removed).not.to.be.undefined;
+      expect(status.removed).to.equal(1);
+      done();
+    });
   });
 });
 
