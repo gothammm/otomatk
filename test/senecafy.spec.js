@@ -301,6 +301,7 @@ describe('Senecafy', () => {
       var id = data._id.toString();
       return seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'remove' }, { id: id });
     }).then((status) => {
+      console.log(status);
       expect(status).not.to.be.null;
       expect(status).not.to.be.undefined;
       expect(status.removed).not.to.be.undefined;
