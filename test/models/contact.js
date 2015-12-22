@@ -17,7 +17,10 @@ Contact.schema = {
 };
 
 Contact.onSaving = (instance, changes) => {
-  changes.email = 'test@test.com'
+  if (changes.$set) {
+    changes.$set.updatedOn = new Date();
+    changes.$set.email = 'test@test.com';
+  }
 };
 
 Contact.collection = 'contacts';
