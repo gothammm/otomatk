@@ -252,7 +252,34 @@ describe('Senecafy', () => {
       done();
     });
   });
-
+  
+  it('should accept string _id during update', (done) => {
+    seneca
+      .actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, {
+        data: {
+          username: 'test_user200',
+          email: 'test_user200@test.com',
+          age: 200
+        },
+        options: {
+          w: 1
+        }
+      })
+      .then((data) => {
+        if (data && data._id) {
+          data._id = data._id.toString();
+        }
+        data.email = 'testnewuser200@test.com';
+        return seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'save' }, { data: data });
+      })
+      .then((updated) => {
+        expect(updated).not.to.be.null;
+        expect(updated).not.to.be.undefined;
+        expect(updated.email).to.equal('testnewuser200@test.com');
+        done();
+      })
+      .catch(done);
+  });
 });
 
 after((done) => {
