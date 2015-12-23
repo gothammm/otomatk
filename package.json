@@ -1,6 +1,6 @@
 {
   "name": "otomatk",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "Iridium Model REST Mapper for Express and Seneca",
   "main": "index.js",
   "scripts": {
