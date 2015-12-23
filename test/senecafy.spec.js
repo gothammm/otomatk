@@ -310,7 +310,7 @@ describe('Senecafy', () => {
     });
   });
   
-  it('should save a new contact and update it', (done) => {
+  it('should save a new contact and override it', (done) => {
     ContactModel
     .insert({ email: 'test', first_name: 'test', last_name: 'test2' }, { w: 1 })
     .then((contact) => {
@@ -327,6 +327,34 @@ describe('Senecafy', () => {
       expect(c.email).to.equal('test@test.com');
       done();
     });
+  });
+  
+  it('should update a contact', (done) => {
+    ContactModel
+    .insert({ email: 'test', first_name: 'test', last_name: 'test2' }, { w: 1 })
+    .then((contact) => {
+      var contactJSON = contact.toJSON();
+      return seneca.actAsync({ role: senecaRole, plugin: ContactModel.collectionName, cmd: 'update' }, {
+        data: {
+          _id: contactJSON._id,
+          first_name: 'test 123'
+        }
+      });
+    })
+    .then((c) => {
+      expect(c).not.to.be.null;
+      expect(c).not.to.be.undefined;
+      return c;
+    }).then(() => {
+      ContactModel
+      .get({ email: 'lol@test.com' })
+      .then((ins) => {
+        expect(ins).not.to.be.undefined;
+        expect(ins.toJSON().email).to.equal('lol@test.com');
+        done();
+      });
+    })
+    .catch(done);
   });
 });
 
