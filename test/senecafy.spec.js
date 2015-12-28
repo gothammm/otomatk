@@ -356,6 +356,22 @@ describe('Senecafy', () => {
     })
     .catch(done);
   });
+  
+  it('should sort by age in descending order', (done) => {
+    seneca.actAsync({ role: senecaRole, plugin: UserModel.collectionName, cmd: 'list' }, {
+      options: {
+        sort: {
+          age: -1
+        }
+      }
+    })
+    .then((data) => {
+      expect(data[0]).not.be.null;
+      expect(data[0]).not.be.undefined;
+      expect(data[0].age).to.be.above(499);
+      done();
+    });
+  });
 });
 
 after((done) => {
