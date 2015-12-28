@@ -38,10 +38,10 @@ seneca.act({ role: rolename, plugin: IridiumModel.collectionName, cmd: 'list' },
 ## Available Commands
 ```
 // Similar to seneca data entities.
-{ cmd: 'save' }
-{ cmd: 'list' }
-{ cmd: 'remove' }
-{ cmd: 'load' } 
+{ cmd: 'save' } // usage - { cmd: 'save', data: <data object to be saved> }
+{ cmd: 'list' } // usage - { cmd: 'list', options: { sort: <mongo field sort indexspecification>, limit: <limit value>, skip: <skip value> }, fields: <field selection> } 
+{ cmd: 'remove' } // usage - { cmd: 'remove', id: <object id of record to be removed> }
+{ cmd: 'load' } // load - { cmd: 'load', id: <object id to be loaded> }
 ```
 
 **NOTE:** The plugin name for all the senecafied patterns are mostly the name of the Iridium Collection/Model (Model.collectionName)
