@@ -5,13 +5,29 @@ A tiny REST-like mapper for [Iridium](http://sierrasoftworks.github.io/Iridium/)
 ### Status
 [![Build Status](https://travis-ci.org/peek4y/otomatk.svg?branch=master)](https://travis-ci.org/peek4y/otomatk)
 ## TODO
-* Add support for express.js
 * More test cases
 
 ## Install
 
 ```javascript
 npm install --save otomatk
+```
+
+## Using with Express.js
+
+```javascript
+const Otomatk = require('otomatk');
+const Expressify = Otomatk.Expressify;
+
+// Generate REST Middlewares for Iridium Model.
+const item = new Expressify(ItemModel);
+
+// Usage.
+app.get('/', item.get());
+app.post('/', item.save());
+app.put('/:id', item.save());
+app.delete('/:id', item.remove());
+app.get('/:id', item.detail());
 ```
 
 ## Using with seneca.
