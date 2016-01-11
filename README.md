@@ -18,6 +18,7 @@ npm install --save otomatk
 ```javascript
 const Otomatk = require('otomatk');
 const Expressify = Otomatk.Expressify;
+const app = require('express')();
 
 // Generate REST Middlewares for Iridium Model.
 const item = new Expressify(ItemModel);
