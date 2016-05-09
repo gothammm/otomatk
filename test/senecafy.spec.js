@@ -312,7 +312,7 @@ describe('Senecafy', () => {
   
   it('should save a new contact and override it', (done) => {
     ContactModel
-    .insert({ email: 'test', first_name: 'test', last_name: 'test2' }, { w: 1 })
+    .insert({ email: 'test@test.com', first_name: 'test', last_name: 'test2' }, { w: 1 })
     .then((contact) => {
       var contactJSON = contact.toJSON();
       contactJSON.first_name = 'new test';
