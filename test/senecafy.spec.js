@@ -23,7 +23,7 @@ var senecafy = new Senecafy(seneca, senecaRole);
 seneca.actAsync = Bluebird.promisify(seneca.act);
 
 before((done) => {
-  db = new Core(process.env.DB_URI || 'mongodb://localhost/test');
+  db = new Core(process.env.DB_URI || 'mongodb://localhost/otomatk');
   return db.connect().then(() => {
     UserModel = new Iridium.Model(db, User);
     AddressModel = new Iridium.Model(db, Address);
