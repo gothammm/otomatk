@@ -63,3 +63,6 @@ seneca.act({ role: rolename, plugin: IridiumModel.collectionName, cmd: 'list' },
 
 **NOTE:** The plugin name for all the senecafied patterns are mostly the name of the Iridium Collection/Model (Model.collectionName)
 
+[x] Test
+[ ] Test 3
+
